@@ -10,7 +10,7 @@ class GameOutcomeTest {
     @Test
     @Disabled // flaky
     void playerHitsAndGoesBustThenOutcomeIsPlayerLoses() {
-        Game game = new Game(new Deck());
+        Game game = new Game(new ShuffledDeck());
         game.initialDeal();
 
         game.playerHits();

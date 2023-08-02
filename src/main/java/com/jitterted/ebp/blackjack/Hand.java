@@ -47,7 +47,7 @@ public class Hand {
         System.out.println(cardsAsString());
     }
 
-    private String cardsAsString() {
+    public String cardsAsString() {
         return cards.stream()
                     .map(ConsoleCard::display)
                     .collect(Collectors.joining(

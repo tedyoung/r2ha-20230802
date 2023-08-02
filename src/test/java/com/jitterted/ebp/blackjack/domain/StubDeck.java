@@ -27,6 +27,11 @@ public class StubDeck implements Deck {
                             Rank.QUEEN, Rank.JACK);
     }
 
+    static StubDeck playerPushesDealer() {
+        return new StubDeck(Rank.TEN, Rank.QUEEN,
+                            Rank.NINE, Rank.NINE);
+    }
+
     @Override
     public Card draw() {
         return iterator.next();

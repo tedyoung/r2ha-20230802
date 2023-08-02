@@ -1,5 +1,6 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.domain;
 
+import com.jitterted.ebp.blackjack.adapter.in.console.ConsoleHand;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -25,7 +26,7 @@ public class Game {
         resetScreen();
     }
 
-    static void resetScreen() {
+    public static void resetScreen() {
         System.out.println(ansi().reset());
     }
 
@@ -35,7 +36,7 @@ public class Game {
         game.play();
     }
 
-    static void waitForEnterFromUser() {
+    public static void waitForEnterFromUser() {
         System.out.println(ansi()
                                    .cursor(3, 1)
                                    .fgBrightBlack().a("Hit [ENTER] to start..."));
@@ -43,7 +44,7 @@ public class Game {
         System.console().readLine();
     }
 
-    static void displayWelcomeScreen() {
+    public static void displayWelcomeScreen() {
         AnsiConsole.systemInstall();
         System.out.println(ansi()
                                    .bgBright(Ansi.Color.WHITE)
@@ -79,7 +80,7 @@ public class Game {
         dealerHand.drawFrom(deck);
     }
 
-    void determineOutcome() {
+    public void determineOutcome() {
         if (playerHand.isBusted()) {
             System.out.println("You Busted, so you lose.  💸");
         } else if (dealerHand.isBusted()) {
@@ -93,7 +94,7 @@ public class Game {
         }
     }
 
-    void dealerTurn() {
+    public void dealerTurn() {
         // Dealer makes its choice automatically based on a simple heuristic (<=16 must hit, =>17 must stand)
         if (!playerHand.isBusted()) {
             while (dealerHand.dealerMustDrawCard()) {
@@ -122,7 +123,7 @@ public class Game {
         }
     }
 
-    String inputFromPlayer() {
+    public String inputFromPlayer() {
         System.out.println("[H]it or [S]tand?");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -142,7 +143,7 @@ public class Game {
                         .a("└─────────┘"));
     }
 
-    void displayGameState() {
+    public void displayGameState() {
         System.out.print(ansi().eraseScreen().cursor(1, 1));
         System.out.println("Dealer has: ");
         System.out.println(ConsoleHand.displayFaceUpCard(dealerHand));
@@ -156,7 +157,7 @@ public class Game {
         System.out.println(" (" + playerHand.value() + ")");
     }
 
-    void displayFinalGameState() {
+    public void displayFinalGameState() {
         System.out.print(ansi().eraseScreen().cursor(1, 1));
         System.out.println("Dealer has: ");
         System.out.println(ConsoleHand.cardsAsString(dealerHand));

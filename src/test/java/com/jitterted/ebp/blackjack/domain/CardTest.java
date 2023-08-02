@@ -1,5 +1,7 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.domain;
 
+import com.jitterted.ebp.blackjack.adapter.in.console.ConsoleCard;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,8 +46,8 @@ class CardTest {
         String ansiRedString = ansi().fgRed().toString();
 
         // then we expect a red color ansi sequence
-        assertThat(ConsoleCard.display(heartsCard))
-                .contains(ansiRedString);
+        Assertions.assertThat(ConsoleCard.display(heartsCard))
+                  .contains(ansiRedString);
         assertThat(ConsoleCard.display(diamondsCard))
                 .contains(ansiRedString);
     }

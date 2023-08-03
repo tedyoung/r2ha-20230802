@@ -75,7 +75,17 @@ class GameOutcomeTest {
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
     }
 
+    @Test
+    void noBlackjackDealtPlayerIsNotDone() {
+        Deck notDealtBlackjack = new StubDeck(Rank.EIGHT, Rank.NINE,
+                                              Rank.THREE, Rank.EIGHT);
+        Game game = new Game(notDealtBlackjack);
 
+        game.initialDeal();
+
+        assertThat(game.isPlayerDone())
+                .isFalse();
+    }
 
     private static Game createGameAndDoInitialDeal(Deck deck) {
         Game game = new Game(deck);

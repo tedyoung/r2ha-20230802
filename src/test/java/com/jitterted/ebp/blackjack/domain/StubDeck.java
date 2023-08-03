@@ -54,7 +54,12 @@ public class StubDeck implements Deck {
     public static Deck dealerDrawsOneCardUponDealerTurn() {
         return new StubDeck(Rank.TEN, Rank.QUEEN,
                             Rank.NINE, Rank.FIVE,
-                /*      */ Rank.SIX);
+                            /*      */ Rank.SIX);
+    }
+
+    public static Deck playerDealtBlackjackDealerNotDealtBlackjack() {
+        return new StubDeck(Rank.ACE, Rank.NINE,
+                            Rank.JACK, Rank.QUEEN);
     }
 
     @Override

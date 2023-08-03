@@ -46,6 +46,7 @@ public class Hand {
     }
 
     public void drawFrom(Deck deck) {
+        // pre-condition ("require"): can not be Busted nor have Blackjack
         cards.add(deck.draw());
     }
 
@@ -54,10 +55,12 @@ public class Hand {
     }
 
     boolean pushes(Hand hand) {
+        // both hands must NOT be busted
         return hand.value() == value();
     }
 
     boolean beats(Hand hand) {
+        // both hands must NOT be busted
         return hand.value() < value();
     }
 

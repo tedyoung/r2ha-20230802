@@ -20,23 +20,23 @@ public class StubDeck implements Deck {
         this.iterator = cards.listIterator();
     }
 
-    static Deck playerHitsAndGoesBust() {
+    public static Deck playerHitsAndGoesBust() {
         return new StubDeck(Rank.TEN, Rank.EIGHT,
                             Rank.QUEEN, Rank.JACK,
                             Rank.THREE);
     }
 
-    static StubDeck playerStandsAndBeatsDealer() {
+    public static StubDeck playerStandsAndBeatsDealer() {
         return new StubDeck(Rank.TEN, Rank.EIGHT,
                             Rank.QUEEN, Rank.JACK);
     }
 
-    static StubDeck playerPushesDealer() {
+    public static StubDeck playerPushesDealer() {
         return new StubDeck(Rank.TEN, Rank.QUEEN,
                             Rank.NINE, Rank.NINE);
     }
 
-    static StubDeck singleCardDeck() {
+    public static StubDeck singleCardDeck() {
         return new StubDeck(Rank.TEN);
     }
 

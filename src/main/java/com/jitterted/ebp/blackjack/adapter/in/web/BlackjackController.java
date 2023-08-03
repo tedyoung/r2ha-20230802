@@ -30,6 +30,9 @@ public class BlackjackController {
     @PostMapping("/hit")
     public String hitCommand() {
         game.playerHits();
+        if (game.isPlayerDone()) {
+            return "redirect:/done";
+        }
         return "redirect:/game";
     }
 }

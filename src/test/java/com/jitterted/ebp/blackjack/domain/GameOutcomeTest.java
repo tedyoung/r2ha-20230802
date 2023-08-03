@@ -39,6 +39,14 @@ class GameOutcomeTest {
     }
 
     @Test
+    void playerDoneIsFalseWhenGameIsFirstCreated() {
+        Game game = new Game(StubDeck.singleCardDeck());
+
+        assertThat(game.isPlayerDone())
+                .isFalse();
+    }
+
+    @Test
     void playerDealtBlackjackUponInitialDealAndDealerNotDealtBlackjackThenPlayerWinsBlackjack() {
         Game game = new Game(new StubDeck(Rank.JACK, Rank.NINE,
                                            Rank.ACE, Rank.TEN));
@@ -62,6 +70,8 @@ class GameOutcomeTest {
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
     }
+
+
 
     private static Game createGameAndDoInitialDeal(Deck deck) {
         Game game = new Game(deck);

@@ -32,6 +32,10 @@ public class StubDeck implements Deck {
                             Rank.NINE, Rank.NINE);
     }
 
+    static StubDeck singleCardDeck() {
+        return new StubDeck(Rank.TEN);
+    }
+
     @Override
     public Card draw() {
         return iterator.next();

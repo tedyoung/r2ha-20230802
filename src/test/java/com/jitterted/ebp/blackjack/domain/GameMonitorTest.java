@@ -10,25 +10,38 @@ class GameMonitorTest {
 
     @Test
     void playerStandsThenGameIsOverAndResultsSentToMonitor() {
-        GameMonitor gameMonitorSpy = spy(GameMonitor.class);
-        Game game = new Game(StubDeck.playerStandsAndBeatsDealer(), gameMonitorSpy);
-        game.initialDeal();
+        Fixture fixture = createGameWithMonitorSpy(StubDeck.playerStandsAndBeatsDealer());
 
-        game.playerStands();
+        fixture.game.playerStands();
 
         // verify that the roundCompleted method was called with the specific Game we're using
-        verify(gameMonitorSpy).roundCompleted(game);
+        verify(fixture.gameMonitorSpy).roundCompleted(fixture.game);
     }
 
     @Test
     void playerHitsAndGoesBustThenGameResultsSentToMonitor() {
-        GameMonitor gameMonitorSpy = spy(GameMonitor.class);
-        Game game = new Game(StubDeck.playerHitsAndGoesBust(), gameMonitorSpy);
-        game.initialDeal();
+        Fixture fixture = createGameWithMonitorSpy(StubDeck.playerHitsAndGoesBust());
 
-        game.playerHits();
+        fixture.game.playerHits();
 
-        verify(gameMonitorSpy).roundCompleted(game);
+        verify(fixture.gameMonitorSpy).roundCompleted(fixture.game);
     }
 
+
+    private static Fixture createGameWithMonitorSpy(Deck deck) {
+        GameMonitor gameMonitorSpy = spy(GameMonitor.class);
+        Game game = new Game(deck, gameMonitorSpy);
+        game.initialDeal();
+        return new Fixture(gameMonitorSpy, game);
+    }
+
+    private static class Fixture {
+        public final GameMonitor gameMonitorSpy;
+        public final Game game;
+
+        public Fixture(GameMonitor gameMonitorSpy, Game game) {
+            this.gameMonitorSpy = gameMonitorSpy;
+            this.game = game;
+        }
+    }
 }

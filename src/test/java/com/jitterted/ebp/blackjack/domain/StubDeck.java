@@ -26,18 +26,24 @@ public class StubDeck implements Deck {
                             Rank.THREE);
     }
 
-    public static StubDeck playerStandsAndBeatsDealer() {
+    public static Deck playerStandsAndBeatsDealer() {
         return new StubDeck(Rank.TEN, Rank.EIGHT,
                             Rank.QUEEN, Rank.JACK);
     }
 
-    public static StubDeck playerPushesDealer() {
+    public static Deck playerPushesDealer() {
         return new StubDeck(Rank.TEN, Rank.QUEEN,
                             Rank.NINE, Rank.NINE);
     }
 
-    public static StubDeck singleCardDeck() {
+    public static Deck singleCardDeck() {
         return new StubDeck(Rank.TEN);
+    }
+
+    public static Deck playerHitsDoesNotBust() {
+        return new StubDeck(Rank.TEN, Rank.EIGHT,
+                            Rank.SEVEN, Rank.JACK,
+                            Rank.THREE);
     }
 
     @Override

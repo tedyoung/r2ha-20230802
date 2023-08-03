@@ -21,16 +21,6 @@ public class Game {
         this.gameMonitor = gameMonitor;
     }
 
-    public void initialDeal() {
-        // pre-condition: ensure initial deal only called once per game
-        dealRoundOfCards();
-        dealRoundOfCards();
-        if (playerHand.hasBlackjack()) {
-            playerDone = true;
-            gameMonitor.roundCompleted(this);
-        }
-    }
-
     private void dealRoundOfCards() {
         // why: players first because this is the rule
         playerHand.drawFrom(deck);
@@ -74,18 +64,28 @@ public class Game {
         return dealerHand;
     }
 
-    public void playerHits() {
-        playerHand.drawFrom(deck);
-        playerDone = playerHand.isBusted();
-        if (playerDone) {
+    public void initialDeal() {
+        // pre-condition: ensure initial deal only called once per game
+        dealRoundOfCards();
+        dealRoundOfCards();
+        updatePlayerDoneStateTo(playerHand.hasBlackjack());
+    }
+
+    private void updatePlayerDoneStateTo(boolean newPlayerState) {
+        if (newPlayerState) {
+            playerDone = true;
             gameMonitor.roundCompleted(this);
         }
     }
 
+    public void playerHits() {
+        playerHand.drawFrom(deck);
+        updatePlayerDoneStateTo(playerHand.isBusted());
+    }
+
     public void playerStands() {
-        playerDone = true;
         dealerTurn();
-        gameMonitor.roundCompleted(this);
+        updatePlayerDoneStateTo(true);
     }
 
     public boolean isPlayerDone() {

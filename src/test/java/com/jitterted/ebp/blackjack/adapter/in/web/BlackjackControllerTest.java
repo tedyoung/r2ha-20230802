@@ -57,25 +57,21 @@ class BlackjackControllerTest {
 
     @Test
     public void hitCommandResultsInThirdCardDealtToPlayer() throws Exception {
-        Game game = new Game(StubDeck.playerHitsDoesNotBust());
-        BlackjackController blackjackController = new BlackjackController(game);
-        blackjackController.startGame();
+        Fixture fixture = createControllerWithGameStarted(StubDeck.playerHitsDoesNotBust());
 
-        String redirectPage = blackjackController.hitCommand();
+        String redirectPage = fixture.blackjackController.hitCommand();
 
         assertThat(redirectPage)
                 .isEqualTo("redirect:/game");
-        assertThat(game.playerHand().cards())
+        assertThat(fixture.game.playerHand().cards())
                 .hasSize(3);
     }
 
     @Test
     public void hitCommandAndPlayerBustsThenRedirectToDonePage() throws Exception {
-        Game game = new Game(StubDeck.playerHitsAndGoesBust());
-        BlackjackController blackjackController = new BlackjackController(game);
-        blackjackController.startGame();
+        Fixture fixture = createControllerWithGameStarted(StubDeck.playerHitsAndGoesBust());
 
-        String redirectPage = blackjackController.hitCommand();
+        String redirectPage = fixture.blackjackController.hitCommand();
 
         assertThat(redirectPage)
                 .isEqualTo("redirect:/done");
@@ -83,12 +79,10 @@ class BlackjackControllerTest {
 
     @Test
     public void donePageShowsFinalGameStateWithOutcome() throws Exception {
-        Game game = new Game(StubDeck.playerPushesWithDealer());
-        BlackjackController blackjackController = new BlackjackController(game);
-        blackjackController.startGame();
+        Fixture fixture = createControllerWithGameStarted(StubDeck.playerPushesWithDealer());
 
         Model model = new ConcurrentModel();
-        blackjackController.doneView(model);
+        fixture.blackjackController.doneView(model);
 
         assertThat(model.containsAttribute("gameView"))
                 .isTrue();
@@ -100,29 +94,41 @@ class BlackjackControllerTest {
 
     @Test
     void playerStandsResultsInRedirectToDonePageAndPlayerIsDone() {
-        Game game = new Game(StubDeck.playerStandsAndBeatsDealer());
-        BlackjackController blackjackController = new BlackjackController(game);
-        blackjackController.startGame();
+        Fixture fixture = createControllerWithGameStarted(StubDeck.playerStandsAndBeatsDealer());
 
-        String redirectPage = blackjackController.standCommand();
+        String redirectPage = fixture.blackjackController.standCommand();
 
         assertThat(redirectPage)
                 .isEqualTo("redirect:/done");
-        assertThat(game.isPlayerDone())
+        assertThat(fixture.game.isPlayerDone())
                 .isTrue();
     }
 
     @Test
     void standResultsInDealerDrawingCardOnTheirTurn() {
-        Game game = new Game(new StubDeck(Rank.TEN, Rank.QUEEN,
-                                          Rank.NINE, Rank.FIVE,
-                                          /*      */ Rank.SIX));
-        BlackjackController blackjackController = new BlackjackController(game);
-        blackjackController.startGame();
+        Fixture fixture = createControllerWithGameStarted(StubDeck.dealerDrawsOneCardUponDealerTurn());
 
-        blackjackController.standCommand();
+        fixture.blackjackController.standCommand();
 
-        assertThat(game.dealerHand().cards())
+        assertThat(fixture.game.dealerHand().cards())
                 .hasSize(3);
     }
+
+    private static Fixture createControllerWithGameStarted(Deck deck) {
+        Game game = new Game(deck);
+        BlackjackController blackjackController = new BlackjackController(game);
+        blackjackController.startGame();
+        return new Fixture(game, blackjackController);
+    }
+
+    private static class Fixture {
+        public final Game game;
+        public final BlackjackController blackjackController;
+
+        public Fixture(Game game, BlackjackController blackjackController) {
+            this.game = game;
+            this.blackjackController = blackjackController;
+        }
+    }
+
 }

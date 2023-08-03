@@ -22,10 +22,12 @@ public class Game {
     }
 
     public void initialDeal() {
+        // pre-condition: ensure initial deal only called once per game
         dealRoundOfCards();
         dealRoundOfCards();
         if (playerHand.hasBlackjack()) {
             playerDone = true;
+            gameMonitor.roundCompleted(this);
         }
     }
 

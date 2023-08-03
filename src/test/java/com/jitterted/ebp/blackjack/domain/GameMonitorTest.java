@@ -37,6 +37,17 @@ class GameMonitorTest {
         verify(fixture.gameMonitorSpy, never()).roundCompleted(fixture.game);
     }
 
+    @Test
+    void playerDealtBlackjackThenGameResultsSentToMonitor() {
+        GameMonitor gameMonitorSpy = spy(GameMonitor.class);
+        Game game = new Game(StubDeck.playerDealtBlackjackDealerNotDealtBlackjack(), gameMonitorSpy);
+
+        game.initialDeal();
+
+        verify(gameMonitorSpy).roundCompleted(game);
+    }
+
+
     private static Fixture createGameWithMonitorSpy(Deck deck) {
         GameMonitor gameMonitorSpy = spy(GameMonitor.class);
         Game game = new Game(deck, gameMonitorSpy);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class BlackjackController {
 
-    private final Game game;
+    private final Game game; // NOT RECOMMENDED: direct reference to specific DOMAIN OBJECT (Entity)
 
     public BlackjackController(Game game) {
         this.game = game;

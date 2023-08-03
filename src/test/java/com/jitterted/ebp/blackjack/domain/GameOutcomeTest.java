@@ -21,7 +21,6 @@ class GameOutcomeTest {
         Game game = createGameAndDoInitialDeal(StubDeck.playerStandsAndBeatsDealer());
 
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
@@ -34,7 +33,6 @@ class GameOutcomeTest {
         Game game = createGameAndDoInitialDeal(StubDeck.playerPushesDealer());
 
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_PUSHES_DEALER);
@@ -69,7 +67,6 @@ class GameOutcomeTest {
 
         game.playerHits();
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
@@ -86,6 +83,18 @@ class GameOutcomeTest {
         assertThat(game.isPlayerDone())
                 .isFalse();
     }
+
+    @Test
+    void playerStandsThenDealerAutomaticallyTakesItsTurn() {
+        Game game = new Game(StubDeck.dealerDrawsOneCardUponDealerTurn());
+        game.initialDeal();
+
+        game.playerStands();
+
+        assertThat(game.dealerHand().cards())
+                .hasSize(3);
+    }
+
 
     private static Game createGameAndDoInitialDeal(Deck deck) {
         Game game = new Game(deck);

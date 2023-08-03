@@ -104,16 +104,6 @@ class BlackjackControllerTest {
                 .isTrue();
     }
 
-    @Test
-    void standResultsInDealerDrawingCardOnTheirTurn() {
-        Fixture fixture = createControllerWithGameStarted(StubDeck.dealerDrawsOneCardUponDealerTurn());
-
-        fixture.blackjackController.standCommand();
-
-        assertThat(fixture.game.dealerHand().cards())
-                .hasSize(3);
-    }
-
     private static Fixture createControllerWithGameStarted(Deck deck) {
         Game game = new Game(deck);
         BlackjackController blackjackController = new BlackjackController(game);

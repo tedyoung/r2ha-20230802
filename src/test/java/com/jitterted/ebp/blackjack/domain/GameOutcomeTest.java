@@ -49,7 +49,19 @@ class GameOutcomeTest {
                 .isEqualByComparingTo(GameOutcome.PLAYER_WINS_BLACKJACK);
     }
 
-    // test that when player gets 21 with 3 cards, it's NOT blackjack
+    @Test
+    void playerWithHandValueOf21And3CardsIsNotBlackjack() {
+        Game game = createGameAndDoInitialDeal(new StubDeck(Rank.JACK, Rank.NINE,
+                                                            Rank.EIGHT, Rank.TEN,
+                                                            Rank.THREE));
+
+        game.playerHits();
+        game.playerStands();
+        game.dealerTurn();
+
+        assertThat(game.determineOutcome())
+                .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
+    }
 
     private static Game createGameAndDoInitialDeal(Deck deck) {
         Game game = new Game(deck);
